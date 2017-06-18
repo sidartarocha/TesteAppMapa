@@ -1,6 +1,8 @@
 package com.example.slins.testeappmapa;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
@@ -43,6 +45,7 @@ public class PrincipalActivity extends AppCompatActivity
         transaction.add(R.id.container, new MapsFragment(), "MapsFragment");
 
         transaction.commit();
+
     }
 
     @Override
@@ -77,19 +80,28 @@ public class PrincipalActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    private void showFragment(Fragment fragment, String nameFrag){
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        transaction.replace(R.id.container, fragment, nameFrag );
+
+        transaction.commit();
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_parada) {
-            // Handle the camera action
-        } else if (id == R.id.nav_busca) {
-
+        switch (id){
+            case R.id.nav_mapFrag:
+                showFragment(new MapsFragment(), "MapsFragment");
+                break;
+            case R.id.nav_provFrag:
+                showFragment(new ProviderFragment(), "ProviderFragment");
+                break;
         }
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
